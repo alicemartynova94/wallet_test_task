@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-wallet-table
+      author: alicemartynova94
+      preConditions:
+        - onFail: MARK_RAN
+        - tableExists:
+            tableName: wallet
+      changes:
+        - createTable:
+            tableName: wallet
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: available_funds
+                  type: double
+                  constraints:
+                    nullable: false
+                    defaultValueNumeric: 0.00
+              - column:
+                  name: wallet_creation_time
+                  type: TIMESTAMP
+              - column:
+                  name: wallet_updated_time
+                  type: TIMESTAMP
+                  constraints:
+              - column:
+                  name: wallet_deleted_time
+                  type: TIMESTAMP
