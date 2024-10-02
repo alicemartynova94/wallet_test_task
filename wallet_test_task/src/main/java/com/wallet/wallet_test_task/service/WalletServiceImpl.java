@@ -27,7 +27,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public void updateWalletByDepositingOrWithdrawing(WalletDto walletDto) {
         log.debug("Fetching wallet with id: {}", walletDto.getId());
-        Wallet wallet = walletRepository.findByIdActiveWallet(walletDto.getId()).orElseThrow(() -> new NoSuchWalletException("There is no wallet with " + walletDto.getId() + "in DB or it was deleted."));
+        Wallet wallet = walletRepository.findByIdActiveWalletLock(walletDto.getId()).orElseThrow(() -> new NoSuchWalletException("There is no wallet with " + walletDto.getId() + "in DB or it was deleted."));
 
         if (walletDto.getAmount() == null || walletDto.getAmount() <= 0) {
             throw new IncorrectAmountException("The amount can not be null or a negative number");
