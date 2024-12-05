@@ -54,7 +54,7 @@ public class WalletServiceImplTest {
 
     @Test
     public void updateWalletByDepositingOrWithdrawing_ExpectCorrectOperation() {
-        when(walletRepository.findByIdActiveWallet(walletDto.getId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findByIdActiveWalletLock(walletDto.getId())).thenReturn(Optional.of(wallet));
 
         walletService.updateWalletByDepositingOrWithdrawing(walletDto);
 
@@ -65,7 +65,7 @@ public class WalletServiceImplTest {
     public void updateWalletByDepositingOrWithdrawing_ExpectIncorrectAmountException() {
         walletDto.setAmount(-1000.00);
 
-        when(walletRepository.findByIdActiveWallet(walletDto.getId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findByIdActiveWalletLock(walletDto.getId())).thenReturn(Optional.of(wallet));
 
         Assertions.assertThrows(IncorrectAmountException.class, () ->
                 walletService.updateWalletByDepositingOrWithdrawing(walletDto));
@@ -75,7 +75,7 @@ public class WalletServiceImplTest {
     public void updateWalletByDepositingOrWithdrawing_ExpectInsufficientFundsException() {
         walletDto.setAmount(Double.MAX_VALUE);
 
-        when(walletRepository.findByIdActiveWallet(walletDto.getId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findByIdActiveWalletLock(walletDto.getId())).thenReturn(Optional.of(wallet));
 
         Assertions.assertThrows(InsufficientFundsException.class, () ->
                 walletService.updateWalletByDepositingOrWithdrawing(walletDto));
@@ -85,7 +85,7 @@ public class WalletServiceImplTest {
     public void updateWalletByDepositingOrWithdrawing_ExpectInvalidOperationArgumentException() {
         walletDto.setOperationType(null);
 
-        when(walletRepository.findByIdActiveWallet(walletDto.getId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findByIdActiveWalletLock(walletDto.getId())).thenReturn(Optional.of(wallet));
 
         Assertions.assertThrows(InvalidOperationArgumentException.class, () ->
                 walletService.updateWalletByDepositingOrWithdrawing(walletDto));
@@ -93,7 +93,7 @@ public class WalletServiceImplTest {
 
     @Test
     public void updateWalletByDepositingOrWithdrawing_ExpectNoSuchWalletException() {
-        when(walletRepository.findByIdActiveWallet(walletDto.getId())).thenReturn(Optional.empty());
+        when(walletRepository.findByIdActiveWalletLock(walletDto.getId())).thenReturn(Optional.empty());
 
         Assertions.assertThrows(NoSuchWalletException.class, () ->
                 walletService.updateWalletByDepositingOrWithdrawing(walletDto));
